@@ -1,0 +1,11 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.menu_btn{
+    @apply h-4/5 aspect-square rounded-full self-center hover:bg-gray-100 p-2 cursor-pointer;
+}
+
+/* .width_transit{
+    @apply transition-width transition-slowest ease;
+} */
