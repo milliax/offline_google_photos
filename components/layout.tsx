@@ -12,7 +12,7 @@ enum Mode {
     Trash = "Trash",
 }
 
-export default function Layout({ children, mode }: { children: React.ReactNode, mode?: Mode }) {
+export default function Layout({ children, mode }: { children: React.ReactNode, mode: Mode }) {
     const [navbarExpend, setNavbarExpend] = useState<boolean>(false);
     return (
         <div className="h-screen flex flex-col">
