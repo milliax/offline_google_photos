@@ -76,7 +76,7 @@ export default function Menu({ expend, mode }: { expend: boolean, mode: Mode }) 
                     <MenuItem expend={expend} Icon={data.Icon} text={data.text} key={data.text} select={data.select} mode={mode} url={data.url} />
                 ))}
             </div>
-            <div className="py-5">
+            <div className="py-5 pb-20">
                 <MenuItem expend={expend} Icon={CloudIcon} text="使用空間" mode={Mode.No} url={"#"} />
             </div>
         </div>

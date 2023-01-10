@@ -21,44 +21,34 @@ export default function Settings() {
     )
 }
 
-import { updateDirectory } from "../redux/reducers/settingsSlice";
+import { updateDirectory as uD } from "../redux/reducers/settingsSlice";
 import { useAppDispatch, useAppSelector } from "../redux/utils";
 
 function FolderSelection() {
     const [directorySelected, setDirectorySelected] = useState<string | null>(useAppSelector(state => state.settings.directory));
-    const [foldersToView, setFoldersToView] = useState<string[]>(["回上一頁"]);
 
     const dispatch = useAppDispatch();
 
-    useEffect(() => {
-        // TODO: pull directory path from redux
-
-    }, [])
-
-    const moveTo = () => {
-
+    const updateDirectory = async () => {
+        const result = await (window as any).customAPI.selectFolder();
+        console.log(result)
+        // save directory path to redux
+        dispatch(uD(result))
+        setDirectorySelected(result);
     }
 
     return (
-        <div className="space-y-2 h-full w-full">
+        <div className="space-y-2 h-full w-full px-5">
             <div>Folder Selector</div>
             <div className="flex flex-wrap space-x-3">
                 <div>
-                    Now selected Folder
+                    已選擇資料夾
                 </div>
-                <div>D:\</div>
+                <div>{directorySelected ?? "無選擇"}</div>
             </div>
             <div className="bg-red-200 px-3 py-1 w-20 text-center rounded-full select-none hover:bg-red-300 cursor-pointer" onClick={() => {
-                // updateDirectory()
+                updateDirectory()
             }}>變更</div>
-            <div className="bg-gray-100 h-[calc(100%-7rem)] w-full px-3 py-2 space-y-1">
-                {/* folder viewer */}
-                {foldersToView.map(folderName => (
-                    <div className="bg-white px-2 select-none cursor-pointer rounded-md hover:bg-blue-100" onClick={() => {
-                        moveTo();
-                    }}>{folderName}</div>
-                ))}
-            </div>
         </div>
     )
 }
