@@ -25,3 +25,9 @@ const store = configureStore({
 })
 
 export default store;
+
+export type AppDispatch = typeof store.dispatch;
+export type RootState = ReturnType<typeof store.getState>;
+
+// export type AppState = ReturnType<typeof reducers>;
+// export type AppEpic = Epic<>

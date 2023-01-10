@@ -1,10 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit"
 
 const initialState = {
-    settings: {
-        theme: "white",
-        directory: null,
-    }
+    theme: "white",
+    directory: null,
 }
 
 export const counterSlice = createSlice({
@@ -12,7 +10,7 @@ export const counterSlice = createSlice({
     initialState,
     reducers: {
         updateDirectory: (state, { payload }) => {
-            state.settings = { ...state.settings, directory: payload }
+            state = { ...state, directory: payload }
         }
     }
 })
