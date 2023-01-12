@@ -1,6 +1,6 @@
 (() => {
     const { contextBridge, ipcRenderer } = require("electron");
     contextBridge.exposeInMainWorld("customAPI", {
-        selectFolder: () => ipcRenderer.invoke("dialog:openDirectory")
+        selectFolder: () => ipcRenderer.invoke("dialog:openDirectory"),
     })
 })()

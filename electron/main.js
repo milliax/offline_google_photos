@@ -16,12 +16,12 @@ const createWindow = async () => {
     })
 
     ipcMain.handle("dialog:openDirectory", async () => {
-        const {canceled,filePaths} = await dialog.showOpenDialog(mainWindow,{
+        const { canceled, filePaths } = await dialog.showOpenDialog(mainWindow, {
             properties: ["openDirectory"]
         })
-        if(canceled){
+        if (canceled) {
             return
-        }else{
+        } else {
             return filePaths[0]
         }
     })
