@@ -21,20 +21,16 @@ export default function Settings() {
     )
 }
 
-import { updateDirectory as uD } from "../redux/reducers/settingsSlice";
-import { useAppDispatch, useAppSelector } from "../redux/utils";
-
 function FolderSelection() {
-    const [directorySelected, setDirectorySelected] = useState<string | null>(useAppSelector(state => state.settings.directory));
-
-    const dispatch = useAppDispatch();
+    const [directorySelected, setDirectorySelected] = useState<string | null>(localStorage.getItem("root"));
 
     const updateDirectory = async () => {
         const result = await (window as any).customAPI.selectFolder();
-        console.log(result)
         // save directory path to redux
-        dispatch(uD(result))
+        // dispatch(uD(result))
+        localStorage.setItem("root", result);
         setDirectorySelected(result);
+        window.dispatchEvent(new Event("itemInserted"))
     }
 
     return (

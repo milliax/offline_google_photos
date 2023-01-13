@@ -9,7 +9,7 @@ export default async function handler(
     const { path } = req.query;
     // console.log("root", path)
     try {
-        let data = await visitDir(path as string, []);
+        let data = <string[][]>await visitDir(path as string, []);
         // console.log(data);
         res.status(200).json(data);
     } catch (err) {
@@ -20,7 +20,7 @@ export default async function handler(
 }
 
 
-const visitDir:string[][] = async (root: string, folder: string[]) => {
+const visitDir = async (root: string, folder: string[]) => {
     //let dataFound: any[] = []
 
     let files = await fs.promises.readdir(path.join(root, ...folder))
@@ -29,10 +29,10 @@ const visitDir:string[][] = async (root: string, folder: string[]) => {
         const stat = await fs.promises.stat(route)
         if (stat.isDirectory()) {
             console.log("directory found")
-            let children:string[][] = await visitDir(root, [...folder, file]);
+            let children:string[][] = <string[][]>await visitDir(root, [...folder, file]);
             return children.map((child) => ([...folder, ...child]))
         }
         return [file]
     }))
-    
+
 }

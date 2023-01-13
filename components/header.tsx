@@ -40,9 +40,9 @@ export default function Header({ setNavbarExpend, navbarExpend }: { setNavbarExp
                 <Cog6ToothIcon className="menu_btn" onClick={() => {
                     updateFloatingWindowMode(windowModes.Settings)
                 }} />
-                <div className="menu_btn">
-                    <div className="text-xs">名字</div>
-                </div>
+
+                <img src={`https://ui-avatars.com/api?name=${"Dear John"}`} className="menu_btn p-0" />
+
                 {showFloatingWindow && <FloatingWindow mode={windowMode} setWindowStatus={setShowFloatingWindow} />}
             </div>
         </div>

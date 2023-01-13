@@ -20,7 +20,7 @@ export default function Layout({ children, mode }: { children: React.ReactNode, 
                 <Header setNavbarExpend={setNavbarExpend} navbarExpend={navbarExpend} />
             </nav>
             <div className="flex flex-col h-[calc(100%-3rem)]">
-                <div className={`h-full duration-75 fixed bg-white ${navbarExpend ? "w-52 scrollbar shadow-lg" : "w-16 scrollbar_hide"} overflow-y-auto`}
+                <div className={`h-[calc(100%-3rem)] duration-75 fixed bg-white ${navbarExpend ? "w-52 scrollbar shadow-lg" : "w-16 scrollbar_hide"} overflow-y-auto`}
                     onMouseEnter={() => { setNavbarExpend(true) }}
                     onMouseLeave={() => { setNavbarExpend(false) }}>
                     <Menu expend={navbarExpend} mode={mode}/>

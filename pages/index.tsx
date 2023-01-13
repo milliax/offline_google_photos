@@ -1,34 +1,62 @@
 import React, { useEffect, useRef, useState } from "react";
 import Layout from "../components/layout";
+import Link from "next/link"
 
 enum Mode {
   Photos = "Photos"
 }
 
 export default function Home() {
-  const rootPath = "C:\\Users\\maxch\\OneDrive - chsivir\\Pictures\\橋本環奈";
-  const [photoURL, setPhotoURL] = useState<string[][]>([["573cd2d66a78dffcdddcbf502cd55a81.jpg"]]);
+  const rootPathRef = useRef<string>("");
+  const [rootPath, setRootPathRef] = useState<string>("");
+  const [photoURL, setPhotoURL] = useState<string[][]>();
+
+  const setRootPath = (value: string) => {
+    setRootPathRef(value)
+    rootPathRef.current = value;
+  }
 
   const getAllPhotos = async () => {
-    const res = await fetch(`/api/get_photos_in_album?${new URLSearchParams({
-      path: rootPath
-    })}`)
+    const root = rootPathRef.current
+    if (root === "")
+      return
+    const urlWithParams = `/api/get_photos_in_folder?${new URLSearchParams({
+      path: rootPathRef.current
+    })}`
+    console.log(root)
+    const res = await fetch(urlWithParams)
     const paths = await res.json()
     setPhotoURL(paths)
     // console.log(paths)
   }
 
+  const storageUpdated = () => {
+    setRootPath(localStorage.getItem("root") ?? "")
+    console.log("detected updated")
+  }
+
   useEffect(() => {
-    getAllPhotos()
+    if (rootPathRef.current !== "") {
+      getAllPhotos()
+    }
+  }, [rootPath])
+
+  useEffect(() => {
+    storageUpdated()
+    window.addEventListener("itemInserted", storageUpdated);
+    return () => {
+      window.removeEventListener("itemInserted", storageUpdated);
+    }
   }, [])
 
   return (
     <Layout mode={Mode.Photos}>
       <div className="grid grid-cols-3 w-full gap-3">
-        {photoURL.map(url => (
-          <div key={`${url}`} className="aspect-video">
+        {photoURL && photoURL.map(url => (
+          <Link key={`${url}`} className="aspect-video hover:shadow-lg cursor-pointer" href={`/detail/${"path"}`}>
+            {/* TODO: variable "path" is not specify */}
             <CustomImage root={rootPath} paths={url} />
-          </div>
+          </Link>
         ))}
       </div>
     </Layout>
@@ -36,9 +64,11 @@ export default function Home() {
 }
 
 
-function CustomImage({ paths, root }: { paths: string[] | string, root: string }) {
+function CustomImage({ paths, root }: { paths: string[] | string, root: string | null }) {
+  if (root === null) {
+    return <></>
+  }
   const [imageURL, setImageURL] = useState<string>("");
-
   const updateImageURL = async () => {
     const params = new URLSearchParams()
     params.append("root", root);
